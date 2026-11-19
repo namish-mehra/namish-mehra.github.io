@@ -32,7 +32,7 @@ page when the site is built. After you change them in /admin, build and upload t
 
 ## Hosting on GitHub Pages
 
-Live site: https://namishmehra.github.io/ (admin: https://namishmehra.github.io/admin).
+Live site: https://namish-mehra.github.io/ (admin: https://namish-mehra.github.io/admin).
 Every push to `main` builds and deploys the site (`.github/workflows/deploy.yml`).
 `.github/workflows/keepalive.yml` calls Supabase every 3 days so the free project is not paused.
 If that job fails, GitHub sends an email: open Supabase and click "Resume project".

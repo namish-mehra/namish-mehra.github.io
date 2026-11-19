@@ -1,0 +1,170 @@
+{
+  "section": {
+    "heading": "Every cut is a",
+    "highlightedWord": "Decision",
+    "subtext": ""
+  },
+  "layout": "layout1",
+  "projects": [
+    {
+      "id": "v1",
+      "type": "video",
+      "category": "Talking Head",
+      "title": "Arthur Brooks Edit",
+      "description": "",
+      "tags": [
+        "Minimal",
+        "Motion Graphics",
+        "Typography"
+      ],
+      "duration": "01:02",
+      "thumbnail": "/images/work/arthur-brooks-edit.jpg",
+      "youtubeUrl": "https://www.youtube.com/shorts/9dD1XI5vQsU",
+      "aspect": "9:16",
+      "hidden": false
+    },
+    {
+      "id": "v2",
+      "type": "video",
+      "category": "Motion Graphics",
+      "title": "Why Do People Interrupt You?",
+      "description": "",
+      "tags": [
+        "Podcast",
+        "Captions",
+        "Motion Graphics"
+      ],
+      "duration": "00:11",
+      "thumbnail": "/images/work/interrupt-motion-graphics.jpg",
+      "youtubeUrl": "https://www.youtube.com/shorts/LjGVt2mfVQs",
+      "aspect": "9:16",
+      "hidden": false
+    },
+    {
+      "id": "v3",
+      "type": "video",
+      "category": "Cinematic Edit",
+      "title": "Ayrton Senna Edit",
+      "description": "",
+      "tags": [
+        "Storytelling",
+        "Sound Design",
+        "Color Grading"
+      ],
+      "duration": "01:03",
+      "thumbnail": "/images/work/ayrton-senna-edit.jpg",
+      "youtubeUrl": "https://www.youtube.com/watch?v=IgYnDofNmqA",
+      "aspect": "16:9",
+      "hidden": false
+    },
+    {
+      "id": "g1",
+      "type": "beforeafter",
+      "category": "Color Grade",
+      "title": "Workout Grade",
+      "description": "",
+      "tags": [
+        "DaVinci Resolve",
+        "Color Theory",
+        "Color Grading"
+      ],
+      "duration": "",
+      "thumbnail": "/images/work/workout-graded.jpg",
+      "beforeImage": "/images/work/workout-raw.jpg",
+      "afterImage": "/images/work/workout-graded.jpg",
+      "beforeLabel": {
+        "text": "Raw footage",
+        "bgColor": "#000000",
+        "textColor": "#b3b3b3"
+      },
+      "afterLabel": {
+        "text": "Color graded",
+        "bgColor": "#000000",
+        "textColor": "#e6e6e6"
+      },
+      "sliderColor": "#ffffff",
+      "hidden": false
+    },
+    {
+      "id": "g2",
+      "type": "beforeafter",
+      "category": "Color Grade",
+      "title": "City Grade",
+      "description": "",
+      "tags": [
+        "DaVinci Resolve",
+        "Color Theory",
+        "Color Grading"
+      ],
+      "duration": "",
+      "thumbnail": "/images/work/city-graded.jpg",
+      "beforeImage": "/images/work/city-raw.jpg",
+      "afterImage": "/images/work/city-graded.jpg",
+      "beforeLabel": {
+        "text": "Raw footage",
+        "bgColor": "#000000",
+        "textColor": "#b3b3b3"
+      },
+      "afterLabel": {
+        "text": "Color graded",
+        "bgColor": "#000000",
+        "textColor": "#e6e6e6"
+      },
+      "sliderColor": "#ffffff",
+      "hidden": false
+    }
+  ],
+  "tagLibrary": [
+    "Minimal",
+    "Motion Graphics",
+    "Typography",
+    "Storytelling",
+    "Sound Design",
+    "Color Grading",
+    "Color Theory",
+    "Captions",
+    "Podcast",
+    "Talking-Head",
+    "B-Roll",
+    "DaVinci Resolve",
+    "Cinematic",
+    "Branding",
+    "Real Estate",
+    "Client Work"
+  ],
+  "settings": {
+    "heroEyebrow": "Video Editor — Pune, Maharashtra",
+    "heroTagline": "Your voice, my edit — built to keep people watching.",
+    "aboutHeading": "Cut with",
+    "aboutHighlight": "intent",
+    "aboutBio": "I'm Namish, a video editor focused on cutting content that holds attention — from concept to final grade. I care about pacing, rhythm, and making every second earn its place on screen.",
+    "aboutImage": "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=1200&auto=format&fit=crop",
+    "location": "Pune, Maharashtra",
+    "tools": [
+      "Premiere Pro",
+      "DaVinci Resolve",
+      "After Effects"
+    ],
+    "craft": [
+      "Sound Design",
+      "Color Theory",
+      "Pacing",
+      "Storytelling"
+    ],
+    "statNumber": "30+",
+    "statLabel": "Projects Completed",
+    "statText": "Talking-head content is the home base — adaptable to whatever the story needs.",
+    "contactHeading": "Let's create",
+    "contactHighlight": "great",
+    "contactHeadingMiddle": "something",
+    "contactText": "Tell me about the footage, the deadline, and who it's for — I'll come back with a plan and a pace.",
+    "email": "namish.mehra.01@gmail.com",
+    "instagramUrl": "https://www.instagram.com/namish_mehra/",
+    "whatsappNumber": "919325909074",
+    "footerRole": "Film & Motion Editor",
+    "web3formsKey": "cd4695d7-523e-477d-a56a-874dee0c1bae",
+    "seoTitle": "Namish Mehra — Film & Motion Editor",
+    "seoDescription": "Namish Mehra — Film & Motion Editor. Your voice, my edit — built to keep people watching. Talking-head editing, sound design, color grading and motion graphics from Pune, Maharashtra.",
+    "shareImage": ""
+  }
+}

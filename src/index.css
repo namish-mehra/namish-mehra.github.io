@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --font-heading: "Martel Sans", sans-serif;
+  --font-body: "Lora", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ink: #0a0e12;
+  --ocean: #003049;
+  --trio-1: #99dbff;
+  --trio-2: #99a8ff;
+  --trio-3: #99fff0;
+  --trio-gradient: linear-gradient(135deg, #99dbff 0%, #99a8ff 50%, #99fff0 100%);
+  --background: 210 29% 6%;
+  --foreground: 210 40% 96%;
+  --card: 210 26% 9%;
+  --card-foreground: 210 40% 96%;
+  --popover: 210 26% 9%;
+  --popover-foreground: 210 40% 96%;
+  --primary: 199 100% 80%;
+  --primary-foreground: 210 29% 6%;
+  --secondary: 210 20% 14%;
+  --secondary-foreground: 210 40% 96%;
+  --muted: 210 20% 14%;
+  --muted-foreground: 215 16% 62%;
+  --accent: 210 20% 14%;
+  --accent-foreground: 210 40% 96%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 216 20% 16%;
+  --input: 216 20% 16%;
+  --ring: 199 100% 80%;
+  --radius: 0.75rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  html,
+  body {
+    overflow-x: clip;
+  }
+  body {
+    @apply bg-ink text-slate-200;
+    font-family: var(--font-body);
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--trio-2);
+    color: var(--ink);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1c2733;
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #273545;
+  }
+  :focus-visible {
+    outline: 2px solid rgba(153, 219, 255, 0.7);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--trio-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(153, 219, 255, 0.28);
+  }
+  .bg-trio {
+    background-image: var(--trio-gradient);
+  }
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  }
+}
+
+@keyframes eq-pulse {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes bar-breathe {
+  0%,
+  100% {
+    transform: scaleX(0.92);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes playhead-sweep {
+  0% {
+    transform: translateX(0%);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-eq-pulse {
+  animation: eq-pulse 2.2s ease-in-out infinite;
+}
+.animate-bar-breathe {
+  animation: bar-breathe 5s ease-in-out infinite;
+}
+.animate-playhead-sweep {
+  animation: playhead-sweep 7s linear infinite;
+}
+
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes orbit-spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+.animate-orbit {
+  animation: orbit-spin 40s linear infinite;
+}
+.animate-orbit-rev {
+  animation: orbit-spin-rev 40s linear infinite;
+}
+
+@media (pointer: fine) {
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-marquee,
+  .animate-drift-a,
+  .animate-drift-b,
+  .animate-drift-c,
+  .animate-scroll-cue,
+  .animate-pulse-dot,
+  .animate-eq-pulse,
+  .animate-bar-breathe,
+  .animate-playhead-sweep,
+  .animate-orbit,
+  .animate-orbit-rev {
+    animation: none !important;
+  }
+}

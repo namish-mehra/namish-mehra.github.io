@@ -323,6 +323,13 @@ const CardList = ({
   const [dragId, setDragId] = useState<string | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
 
+  // When a card is added, open its editor at once so it is clear where to type.
+  const prevCount = useRef(items.length);
+  useEffect(() => {
+    if (items.length > prevCount.current) setOpen(items[items.length - 1].id);
+    prevCount.current = items.length;
+  }, [items.length]);
+
   const move = (from: string, to: string) => {
     if (from === to) return;
     update((c) => {

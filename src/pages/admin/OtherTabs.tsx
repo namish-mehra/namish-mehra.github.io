@@ -211,7 +211,7 @@ export const TextsTab = ({ content, update }: { content: SiteContent; update: Up
                 value={s.seoDescription}
                 onChange={(v) => set({ seoDescription: v })}
                 multiline
-                hint="WhatsApp, Instagram and LinkedIn read the title, description and share image when the site is built. After you change these, publish the site again (see the guide)."
+                hint="WhatsApp, Instagram and LinkedIn read the title, description and share image from the page file, which is rebuilt every Monday. To update sooner: GitHub, Actions, 'Build and deploy to GitHub Pages', Run workflow. Old cards may stay in WhatsApp for a few days."
               />
             </div>
           </>

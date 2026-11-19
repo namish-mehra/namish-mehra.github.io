@@ -40,6 +40,31 @@ const setMeta = (selector: string, attr: string, value: string) => {
   if (el && value) el.setAttribute(attr, value);
 };
 
+/**
+ * Adds one visit to today's count. When this browser has never opened the site before, it is also counted as a
+ * "new user" (a flag in this browser's storage remembers it). No personal data is stored.
+ */
+const trackVisit = async () => {
+  if (!supabase) return;
+  let isNew = false;
+  try {
+    isNew = !localStorage.getItem("nm-visitor");
+  } catch {
+    isNew = false; // storage blocked: we cannot tell, so we do not count a new user
+  }
+  const res = await supabase.rpc("track_view", { is_new: isNew });
+  if (res.error) {
+    // The database update for new users is not installed yet: count a plain visit and try "new" again next time.
+    await supabase.rpc("track_view");
+    return;
+  }
+  try {
+    if (isNew) localStorage.setItem("nm-visitor", "1");
+  } catch {
+    /* storage blocked */
+  }
+};
+
 /** Public site: shows built-in (or cached) content at once, then swaps in the live content from the database. */
 export const LiveContentProvider = ({ children }: { children: ReactNode }) => {
   const [content, setContent] = useState<SiteContent>(() => readCache() ?? getBundledContent());
@@ -51,15 +76,11 @@ export const LiveContentProvider = ({ children }: { children: ReactNode }) => {
       setContent(live);
       writeCache(live);
     });
-    // One view per browser session.
+    // One visit per browser session; one "new user" the first time this browser opens the site.
     try {
       if (supabase && !sessionStorage.getItem("nm-viewed")) {
         sessionStorage.setItem("nm-viewed", "1");
-        // supabase-js sends nothing until .then() is called, so this must not be a bare `void`.
-        supabase.rpc("track_view").then(
-          () => undefined,
-          () => undefined,
-        );
+        trackVisit().catch(() => undefined);
       }
     } catch {
       /* ignore */

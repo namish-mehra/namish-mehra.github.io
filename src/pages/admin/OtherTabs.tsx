@@ -317,54 +317,85 @@ export const InboxTab = ({ onUnread }: { onUnread: (n: number) => void }) => {
 /* ------------------------------------------------------------------ */
 
 export const HistoryTab = ({ onRestore }: { onRestore: (c: SiteContent) => void }) => {
-  const [views, setViews] = useState<{ day: string; views: number }[]>([]);
+  type Row = { day: string; views: number; new_users: number };
+  const [views, setViews] = useState<Row[]>([]);
+  const [newTotal, setNewTotal] = useState(0);
+  const [newReady, setNewReady] = useState(true); // false until the "new users" database update is installed
   const [history, setHistory] = useState<{ id: number; saved_at: string; data: unknown }[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!supabase) return;
+    const db = supabase;
     const since = new Date(Date.now() - 29 * 864e5).toISOString().slice(0, 10);
-    Promise.all([
-      supabase.from("page_views").select("day, views").gte("day", since).order("day"),
-      supabase.from("content_history").select("id, saved_at, data").order("id", { ascending: false }).limit(30),
-    ]).then(([v, h]) => {
-      setViews((v.data ?? []) as { day: string; views: number }[]);
+    (async () => {
+      const [v, all, h] = await Promise.all([
+        db.from("page_views").select("day, views, new_users").gte("day", since).order("day"),
+        db.from("page_views").select("new_users"),
+        db.from("content_history").select("id, saved_at, data").order("id", { ascending: false }).limit(30),
+      ]);
+      if (v.error || all.error) {
+        // The "new_users" column does not exist yet: show visits only.
+        const fb = await db.from("page_views").select("day, views").gte("day", since).order("day");
+        setViews(((fb.data ?? []) as { day: string; views: number }[]).map((r) => ({ ...r, new_users: 0 })));
+        setNewReady(false);
+      } else {
+        setViews((v.data ?? []) as Row[]);
+        setNewTotal(((all.data ?? []) as { new_users: number }[]).reduce((a, r) => a + (r.new_users ?? 0), 0));
+        setNewReady(true);
+      }
       setHistory((h.data ?? []) as { id: number; saved_at: string; data: unknown }[]);
       setLoading(false);
-    });
+    })();
   }, []);
 
   const days = Array.from({ length: 30 }, (_, i) => new Date(Date.now() - (29 - i) * 864e5).toISOString().slice(0, 10));
-  const byDay = new Map(views.map((v) => [v.day, v.views]));
-  const max = Math.max(1, ...days.map((d) => byDay.get(d) ?? 0));
-  const total = days.reduce((a, d) => a + (byDay.get(d) ?? 0), 0);
-  const today = byDay.get(days[29]) ?? 0;
+  const byDay = new Map(views.map((v) => [v.day, v]));
+  const visitsOn = (d: string) => byDay.get(d)?.views ?? 0;
+  const newOn = (d: string) => byDay.get(d)?.new_users ?? 0;
+  const max = Math.max(1, ...days.map(visitsOn));
+  const total = days.reduce((a, d) => a + visitsOn(d), 0);
+  const today = visitsOn(days[29]);
+  const newMonth = days.reduce((a, d) => a + newOn(d), 0);
+  const stat = (n: number | string, label: string, tone: "grad" | "plain") => (
+    <div>
+      <p className={`font-heading font-extrabold text-[28px] leading-8 ${tone === "grad" ? "text-gradient" : "text-slate-100"}`}>{n}</p>
+      <p className="font-mono text-[10px] leading-[14px] tracking-[0.16em] uppercase text-slate-500">{label}</p>
+    </div>
+  );
 
   return (
     <div className="space-y-6">
-      <div className={panelCls}>
-        <p className="font-heading font-extrabold text-lg text-slate-100">Visits (last 30 days)</p>
-        <p className="mt-1 font-body text-[13px] text-slate-500">One visit per browser session. No personal data is stored.</p>
-        <div className="mt-4 flex gap-8">
-          <div>
-            <p className="font-heading font-extrabold text-4xl text-gradient">{total}</p>
-            <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-slate-500">30 days</p>
+      <div className="rounded-2xl border border-white/[0.07] bg-panel/80 p-4 md:p-5">
+        <p className="font-heading font-extrabold text-base leading-6 text-slate-100">Visits and new users (last 30 days)</p>
+        <p className="font-body text-[12px] leading-4 text-slate-500">
+          A visit is one browser session. A new user is a browser that opens your site for the first time. No personal data is stored.
+        </p>
+        <div className="mt-2.5 grid gap-4 md:grid-cols-[auto_minmax(0,1fr)] md:gap-8">
+          <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+            {stat(total, "Visits · 30 days", "grad")}
+            {stat(today, "Visits · today", "plain")}
+            {stat(newReady ? newMonth : "–", "New users · 30 days", "grad")}
+            {stat(newReady ? newTotal : "–", "Total new users", "plain")}
           </div>
-          <div>
-            <p className="font-heading font-extrabold text-4xl text-slate-100">{today}</p>
-            <p className="font-mono text-[10px] tracking-[0.18em] uppercase text-slate-500">Today</p>
+          <div className="flex h-14 items-stretch gap-[3px] md:h-auto" role="img" aria-label={`Visits per day, ${total} in total`}>
+            {days.map((d) => {
+              const n = visitsOn(d);
+              const nu = newOn(d);
+              return (
+                <div key={d} className="flex min-w-0 flex-1 flex-col justify-end" title={`${d}: ${n} visits, ${nu} new users`}>
+                  <div
+                    className={`w-full rounded-t-[3px] ${d === days[29] ? "bg-mist" : "bg-mist/70"}`}
+                    style={{ height: `${Math.max(n ? 8 : 3, (n / max) * 100)}%`, opacity: n ? 1 : 0.25 }}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
-        <div className="mt-5 flex h-28 items-end gap-1" role="img" aria-label={`Visits per day, ${total} in total`}>
-          {days.map((d) => {
-            const n = byDay.get(d) ?? 0;
-            return (
-              <div key={d} className="flex-1" title={`${d}: ${n}`}>
-                <div className="w-full rounded-t-[3px] bg-mist/70" style={{ height: `${Math.max(n ? 6 : 2, (n / max) * 100)}%`, opacity: n ? 1 : 0.25 }} />
-              </div>
-            );
-          })}
-        </div>
+        {!newReady && (
+          <p className="mt-2 font-body text-[12px] text-slate-500">New users are not counted yet. Ask Claude to run the database update.</p>
+        )}
       </div>
 
       <div className={panelCls}>

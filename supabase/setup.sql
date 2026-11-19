@@ -114,9 +114,11 @@ create policy "messages: admin can delete"
 -- 4. Page views (one count per day, no personal data)
 -- ---------------------------------------------------------------------
 create table if not exists public.page_views (
-  day   date primary key,
-  views integer not null default 0
+  day       date primary key,
+  views     integer not null default 0,
+  new_users integer not null default 0
 );
+alter table public.page_views add column if not exists new_users integer not null default 0;
 
 alter table public.page_views enable row level security;
 
@@ -125,17 +127,22 @@ create policy "views: admin can read"
   on public.page_views for select
   using (public.is_admin());
 
-create or replace function public.track_view()
+drop function if exists public.track_view();
+
+create or replace function public.track_view(is_new boolean default false)
 returns void
 language sql
 security definer
 set search_path = public
 as $$
-  insert into public.page_views (day, views) values (current_date, 1)
-  on conflict (day) do update set views = public.page_views.views + 1;
+  insert into public.page_views (day, views, new_users)
+  values (current_date, 1, case when is_new then 1 else 0 end)
+  on conflict (day) do update
+    set views     = public.page_views.views + 1,
+        new_users = public.page_views.new_users + case when is_new then 1 else 0 end;
 $$;
 
-grant execute on function public.track_view() to anon, authenticated;
+grant execute on function public.track_view(boolean) to anon, authenticated;
 
 -- ---------------------------------------------------------------------
 -- 5. Image storage (bucket "media": anyone can view, only admin can change)

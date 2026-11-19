@@ -32,6 +32,12 @@ page when the site is built. After you change them in /admin, build and upload t
 
 ## Hosting on GitHub Pages
 
+Live site: https://namishmehra.github.io/ (admin: https://namishmehra.github.io/admin).
+Every push to `main` builds and deploys the site (`.github/workflows/deploy.yml`).
+`.github/workflows/keepalive.yml` calls Supabase every 3 days so the free project is not paused.
+If that job fails, GitHub sends an email: open Supabase and click "Resume project".
+GitHub turns off scheduled jobs after 60 days with no commits; re-enable them in the Actions tab.
+
 - Custom domain or `<user>.github.io` repository: no change needed.
 - Project page (`<user>.github.io/<repo>/`): build with `VITE_BASE=/<repo>/`.
 - `404.html` is made automatically, so `/admin` works on GitHub Pages.

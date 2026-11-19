@@ -128,6 +128,19 @@ const Editor = ({ session }: { session: Session }) => {
     if (!supabase || !draft) return;
     setSaving(true);
     setMsg(null);
+    // Stale-page guard: if the site was saved from another tab or device after this page loaded,
+    // saving now would overwrite those newer changes with this older draft.
+    const { data: current } = await supabase.from("site_content").select("updated_at").eq("id", CONTENT_ROW_ID).maybeSingle();
+    if (current?.updated_at && savedAt && new Date(current.updated_at).getTime() !== new Date(savedAt).getTime()) {
+      const go = window.confirm(
+        "The site was saved from another tab or device after you opened this page.\n\nIf you save now, those newer changes are replaced by what you see here.\n\nPress OK to save anyway, or Cancel and reload this page first.",
+      );
+      if (!go) {
+        setSaving(false);
+        setMsg({ ok: false, text: "Not saved. Reload this page to see the newest version, then edit again." });
+        return;
+      }
+    }
     const now = new Date().toISOString();
     const { error } = await supabase.from("site_content").upsert({ id: CONTENT_ROW_ID, data: draft, updated_at: now });
     setSaving(false);

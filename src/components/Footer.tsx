@@ -27,7 +27,7 @@ export const Footer = () => {
     <div className="max-w-[1760px] mx-auto px-5 sm:px-8 py-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
       <div>
         <p className="font-heading font-extrabold text-h3 text-slate-100">
-          Namish Mehra<span className="text-gradient">.</span>
+          Namish Mehra
         </p>
         <p className="mt-2 font-mono text-caption uppercase text-slate-500">
           {s.footerRole} — {s.location}

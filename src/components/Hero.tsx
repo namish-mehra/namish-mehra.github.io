@@ -159,8 +159,8 @@ export const Hero = ({ booted }: HeroProps) => {
         className="absolute bottom-6 inset-x-0 px-5 sm:px-8"
       >
         <div className="flex items-end justify-between gap-6">
-          <p className="hidden sm:block font-mono text-caption uppercase text-slate-500 w-40">
-            Video Editor
+          <p className="hidden sm:block font-mono text-caption uppercase text-slate-500 leading-loose">
+            Motion Designer<br />& Video Editor
           </p>
           <p className="hidden sm:block font-mono text-caption uppercase text-slate-500 text-right leading-loose">
             Edit /<br />Craft /<br />Attention

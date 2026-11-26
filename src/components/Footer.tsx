@@ -1,8 +1,17 @@
-import { ArrowUp, Instagram } from "lucide-react";
+import { ArrowUp, Instagram, Youtube } from "lucide-react";
 import { DIVIDER_WORDS } from "@/lib/site";
 import { useContent } from "@/lib/store";
 import { Marquee } from "@/components/Marquee";
 import { scrollToSection } from "@/lib/scroll";
+
+const XIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.214-6.817-5.966 6.817H1.68l7.73-8.835L1.254 2.25h6.826l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
+
+const SOCIAL_CLASS =
+  "inline-flex items-center gap-3 font-mono text-[15px] tracking-[0.2em] uppercase text-slate-300 group/ig transition-colors duration-300 hover:text-mist";
 
 export const Footer = () => {
   const { settings: s } = useContent();
@@ -25,17 +34,26 @@ export const Footer = () => {
         </p>
       </div>
 
-      <div className="flex items-center gap-6 self-start md:self-auto">
-        <a
-          data-testid="footer-instagram-link"
-          href={s.instagramUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-3 font-mono text-[15px] tracking-[0.2em] uppercase text-slate-300 group/ig transition-colors duration-300 hover:text-mist"
-        >
-          <Instagram className="w-6 h-6" />
-          <span className="group-hover/ig:text-gradient">Instagram</span>
-        </a>
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-4 self-start md:self-auto">
+        {[
+          { id: "instagram", label: "Instagram", href: s.instagramUrl, Icon: Instagram },
+          { id: "youtube", label: "YouTube", href: s.youtubeUrl, Icon: Youtube },
+          { id: "x", label: "X", href: s.xUrl, Icon: XIcon },
+        ]
+          .filter((l) => l.href)
+          .map(({ id, label, href, Icon }) => (
+            <a
+              key={id}
+              data-testid={`footer-${id}-link`}
+              href={href}
+              target="_blank"
+              rel="me noopener noreferrer"
+              className={SOCIAL_CLASS}
+            >
+              <Icon className="w-6 h-6" />
+              <span className="group-hover/ig:text-gradient">{label}</span>
+            </a>
+          ))}
 
         <button
           data-testid="footer-back-to-top"

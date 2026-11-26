@@ -177,6 +177,8 @@ export const TextsTab = ({ content, update }: { content: SiteContent; update: Up
             </div>
             <TextInput label="Email (copy button)" value={s.email} onChange={(v) => set({ email: v })} />
             <TextInput label="Instagram link" value={s.instagramUrl} onChange={(v) => set({ instagramUrl: v })} />
+            <TextInput label="YouTube link" value={s.youtubeUrl} onChange={(v) => set({ youtubeUrl: v })} />
+            <TextInput label="X link" value={s.xUrl} onChange={(v) => set({ xUrl: v })} />
             <TextInput
               label="WhatsApp number"
               value={s.whatsappNumber}

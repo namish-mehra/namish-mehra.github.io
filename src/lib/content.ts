@@ -69,6 +69,9 @@ export interface SiteSettings {
   contactText: string;
   email: string;
   instagramUrl: string;
+  /** Empty = no button. */
+  youtubeUrl: string;
+  xUrl: string;
   /** WhatsApp number with country code, digits only (e.g. 919876543210). Empty = no WhatsApp button. */
   whatsappNumber: string;
   footerRole: string;

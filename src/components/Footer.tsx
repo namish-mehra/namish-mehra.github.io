@@ -21,7 +21,7 @@ export const Footer = () => {
       variant="footer"
       duration={70}
       testId="footer-large-marquee"
-      items={["NAMISH MEHRA — FILM & MOTION EDITOR"]}
+      items={["NAMISH MEHRA — MOTION DESIGNER & VIDEO EDITOR"]}
     />
 
     <div className="max-w-[1760px] mx-auto px-5 sm:px-8 py-12 flex flex-col md:flex-row md:items-center justify-between gap-8">

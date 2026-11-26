@@ -104,7 +104,6 @@ export const Hero = ({ booted }: HeroProps) => {
             <span className="block overflow-hidden pb-2">
               <motion.span className="block will-change-transform text-gradient" {...lineAnim(1)}>
                 MEHRA
-                <span className="text-slate-100">.</span>
               </motion.span>
             </span>
           </motion.h1>
